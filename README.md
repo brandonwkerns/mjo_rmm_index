@@ -15,6 +15,13 @@ https://www.cpc.ncep.noaa.gov/products/precip/CWlink/MJO/mjo.shtml
 
 There are three Python scripts with functions that can be adopted in other scripts.
 
+### do.update_rmm.sh
+
+This script downloads the latest data from the BOM. It also runs the script `rmm2nc.py` to convert the data to NetCDF format.
+
+It will save existing data in the directory to backup files.
+
+
 
 ## Example Plots
 
