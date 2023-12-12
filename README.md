@@ -60,5 +60,17 @@ Here are three plots of the RMM Index for January - May 2023. This period of tim
 
 Jauregui, Y. R., and S. S. Chen, 2023a: MJO-induced Warm Pool Eastward Extension Prior to the Onset of El Niño: Observations from 1998-2019, J. Clim, accepted. 
 
+The plots were generated using these commands:
+```
+do.update_rmm.sh
+python plot_rmm_phase_diagram.py 20230118 20230223
+python plot_rmm_phase_diagram.py 20230226 20230405
+python plot_rmm_phase_diagram.py 20230419 20230530
+```
+
+![rmm_20230118_to_20230223](https://github.com/brandonwkerns/mjo_rmm_index/assets/18037033/18eafe6f-5e64-45ab-86b4-58474d73e4d8)
+![rmm_20230226_to_20230405](https://github.com/brandonwkerns/mjo_rmm_index/assets/18037033/411b4d57-1dbf-4a0a-bbbb-8a511650ff6a)
+![rmm_20230419_to_20230530](https://github.com/brandonwkerns/mjo_rmm_index/assets/18037033/579cc581-07f9-4c26-8580-6c27b7dc9ac9)
+
 
 
