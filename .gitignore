@@ -3,6 +3,7 @@ rmm.74toRealtime.txt
 rmm.74toRealtime.txt.bak
 rmm.nc
 rmm.nc.bak
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
