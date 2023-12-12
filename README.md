@@ -7,8 +7,8 @@ For more information on the RMM index, consult the following journal article:
 Wheeler, M. C., and H. H. Hendon, 2004: An all-season real-time multivariate MJO index: Development of an index for monitoring and prediction. Mon. Wea. Rev., 132, 1917–1932, doi:10.1175/1520-0493(2004)132<1917:AARMMI>2.0.CO;2.
 
 See also the following websites:
-http://www.bom.gov.au/climate/mjo/
-https://www.cpc.ncep.noaa.gov/products/precip/CWlink/MJO/mjo.shtml
+- http://www.bom.gov.au/climate/mjo/
+- https://www.cpc.ncep.noaa.gov/products/precip/CWlink/MJO/mjo.shtml
 
 
 ## The Environment
