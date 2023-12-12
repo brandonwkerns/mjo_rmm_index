@@ -1,27 +1,33 @@
 import numpy as np
-import xarray as xr
-import pandas as pd
 import datetime as dt
 import matplotlib.pyplot as plt
-from matplotlib import patheffects
-import matplotlib #.colormaps
+import matplotlib
 from netCDF4 import Dataset
-import matplotlib.colors as colors
-import colorcet as ccet
+import colorcet as ccet # Give Matplotlib access to Colorcet colormaps.
 import sys
 
 
-def extract_rmm_for_time_period(dt_start, dt_end,
-                                fn='/home/orca/data/indices/MJO/RMM/rmm.nc'):
+def extract_rmm_for_time_period(dt_start, dt_end, fn='./rmm.nc'):
 
-    """extract_rmm_for_time_period
+    """Extract RMM data for a time period.
 
     Get the daily official RMM index for a range of dates.
+    The date range is inclusive.
+
+    Inputs:
+    - dt_start: starting date (Python datetime)
+    - dt_end: ending date (Python datetime)
+    - fn (optional, default ./rmm.nc): NetCDF file containing the RMM data.
+
+    Output:
+    - RMM: a dictionary with the RMM values and the datetime.
     """
 
     with Dataset('/home/orca/data/indices/MJO/RMM/rmm.nc') as RMMDS:
         RMM = {}
-        RMM['datetime'] = [dt.datetime(1970,1,1,0,0,0) + dt.timedelta(hours=int(x)) for x in RMMDS['time'][:]]
+        RMM['datetime'] = [(dt.datetime(1970,1,1,0,0,0)
+                            + dt.timedelta(hours=int(x))
+                            ) for x in RMMDS['time'][:]]
         RMM['RMM1'] = RMMDS['rmm1'][:]
         RMM['RMM2'] = RMMDS['rmm2'][:]
 
@@ -38,7 +44,8 @@ def set_up_rmm_phase_diagram_axes(fig,
                                   draw_axes_tick_labels=True,
                                   draw_axes_titles=True,
                                   draw_rmm_phase_labels=True):
-    """set_up_rmm_phase_diagram_axes
+    """Set up axes for the RMM phase diagram.
+
     Usage: axrmm = set_up_rmm_phase_diagram_axes(fig)
     
     Input:
@@ -90,12 +97,23 @@ def set_up_rmm_phase_diagram_axes(fig,
     return axrmm
 
 
-def add_rmm_index_trace(RMM, axrmm=None, cmap='viridis', add_colorbar=True):
-    """add_rmm_index_trace
-    usage: H = add_rmm_index_trace(RMM, axrmm=None)
+def add_rmm_index_trace(RMM, axrmm=None, marker='o',
+                        cmap='viridis', add_colorbar=True):
+    """Adds an RMM trace to the RMM phase diagram axes.
 
+    Usage: H = add_rmm_index_trace(RMM, axrmm=None, marker='o',
+                                   cmap='viridis', add_colorbar=True)
+
+    Colors are based on the date.
+
+    The marker and colors used to shade the markers can be specified.
+    
     Input:
       - RMM: a dict with keys: RMM1, RMM2, datetime
+      - axrmm: The axes object. If not specified, use plt.gca().
+      - marker (default: 'o'): Marker shape to use.
+      - cmap (default: 'viridis'): the colormap for daily markers.
+      - add_colorbar (default: True): Whether to draw a colorbar.
 
     Output:
       - H: The plot object output from Scatter()
@@ -106,12 +124,12 @@ def add_rmm_index_trace(RMM, axrmm=None, cmap='viridis', add_colorbar=True):
 
     axrmm.plot(rmm1keep, rmm2keep, 'k-', linewidth=0.7)
 
-    H = axrmm.scatter(rmm1keep,rmm2keep, s=50, marker='o',
+    H = axrmm.scatter(rmm1keep,rmm2keep, s=50, marker=marker,
                       c=np.linspace(0.0, 1.0, len(rmm1keep)),
                       cmap=cmap,
                       edgecolors='k')
 
-    # Colorbar
+    # Colorbar, if specified.
     if add_colorbar:
         cax = fig.add_axes([1.0, 0.2, 0.03, 0.6])
         cbar = plt.colorbar(H, cax=cax)
@@ -129,6 +147,10 @@ def add_rmm_index_trace(RMM, axrmm=None, cmap='viridis', add_colorbar=True):
 
 if __name__ == '__main__':
 
+    # Here is a script illustrating how the above functions can be used.
+    # To use it, specify the starting and ending dates on the command line
+    # For example: python plot_rmm_phase_diagram.py 20230419 20230530
+
     if len(sys.argv) < 2:
         print('Usage: '+sys.argv[0]+' YYYYMMDD_begin YYYYMMDD_end')
 
@@ -137,18 +159,27 @@ if __name__ == '__main__':
         YMD2 = sys.argv[2]
         FMT = '%Y%m%d'
 
+        # Get datetime from date strings
         dt1 = dt.datetime.strptime(YMD1, FMT)
         dt2 = dt.datetime.strptime(YMD2, FMT)
 
+        # Extract the data for the time period
         RMM = extract_rmm_for_time_period(dt1,dt2)
+
+        # Set up the figure and RMM phase diagram axes
         fig = plt.figure(figsize=(4,4))
         axrmm = set_up_rmm_phase_diagram_axes(fig)
 
+        # Draw the RMM index trace on the phase diagram
         cmap = matplotlib.colormaps['cet_rainbow4']
         H = add_rmm_index_trace(RMM, axrmm, cmap=cmap, add_colorbar=True)
 
-        ## Title
-        axrmm.text(-3.8,4.2,f'RMM Index: {YMD1} to {YMD2}',color='k',fontsize=10,fontweight='bold')
+        ## Add a title
+        axrmm.text(-3.8,4.2,f'RMM Index: {YMD1} to {YMD2}',color='k',
+                   fontsize=10,fontweight='bold')
 
-        plt.savefig(f'rmm_{YMD1}_to_{YMD2}.png', dpi=100, bbox_inches='tight')
+        ## Save the output to a png file
+        fnout = f'rmm_{YMD1}_to_{YMD2}.png'
+        print(f'--> {fnout}')
+        plt.savefig(fnout, dpi=100, bbox_inches='tight')
         plt.close(fig)
