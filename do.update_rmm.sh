@@ -21,9 +21,7 @@ fi
 wget --user-agent "Mozilla"  $http_file  
 
 # Use the Python script to convert to NetCDF.
-source /home/disk/orca/bkerns/anaconda3/bin/activate meteo
-
-/home/disk/orca/bkerns/anaconda3/envs/meteo/bin/python ./rmm2nc.py
+python ./rmm2nc.py
 
 # Check to make sure it was successful
 if [ -f ./rmm.nc ]
