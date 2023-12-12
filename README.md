@@ -11,6 +11,20 @@ http://www.bom.gov.au/climate/mjo/
 https://www.cpc.ncep.noaa.gov/products/precip/CWlink/MJO/mjo.shtml
 
 
+## The Environment
+
+The Python dependencies are: Numpy, netCDF4, matplotlib, and colorcet.
+It should not be very picky about versions.
+
+The file **requirements.txt** can be used to build a PIP virtual environment
+like this:
+```
+python3 -m venv ./venv
+source ./venv/bin/activate
+pip3 install --upgrade pip
+pip3 install -r requirements.txt
+```
+
 ## The Code
 
 There are three Python scripts with functions that can be adopted in other scripts.
