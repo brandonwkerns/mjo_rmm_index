@@ -21,6 +21,23 @@ This script downloads the latest data from the BOM. It also runs the script `rmm
 
 It will save existing data in the directory to backup files.
 
+### rmm2nc.py
+
+This Python script converts the text file rmm.74toRealtime.txt to
+the NetCDF file rmm.nc.
+
+### plot_rmm_phase_diagram.py
+
+This Python function and script plots a RMM Index phase diagram
+for the date range specified.
+
+Specify a beginning and ending date in YYYYMMDD format, for example:
+`python plot_rmm_phase_diagram 20230419 20230530`
+
+The plot naming convention is **rmm_20230419_to_20230530.png**.
+
+If no date range is specified, it will print out:
+**Usage: plot_rmm_phase_diagram.py YYYYMMDD_begin YYYYMMDD_end**.
 
 
 ## Example Plots
